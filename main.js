@@ -1,9 +1,35 @@
+/**
+ * サイズ変更
+ */
+let currentWidth = 1000; 
+let currentHeight = 500;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById('video');
+    const maxWidth = 1000;
+
+    setSize(window.innerWidth);
+
+    window.addEventListener('resize', () => {
+        setSize(window.innerWidth);
+    });
+
+    function setSize(windowWidth) {
+        currentWidth = windowWidth > maxWidth ? maxWidth : windowWidth;
+        currentHeight = currentWidth / 2;
+        video.style.width = `${currentWidth}px`;
+        video.style.height = `${currentHeight}px`;
+    }
+});
+
+/**
+ * カメラ
+ */
 let stream;
-const video = document.getElementById('video');
 
 async function playVideo() {
     stream = await getDeviceStream({
-        video: { width: 640, height: 320 },
+        video: { width: currentWidth, height: currentHeight },
         audio: false
     });
     video.srcObject = stream;
